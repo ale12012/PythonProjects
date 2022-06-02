@@ -3,7 +3,6 @@ from time import time
 from numba import njit
 import matplotlib.pyplot as plt
 
-
 @njit # Using numba to speed up the iterate function
 def iterate(c, n):
     """
@@ -12,20 +11,20 @@ def iterate(c, n):
     z = c
     for i in range(n):
         z = z*z + c
-        if abs(z) > 2:
+        if abs(z) > 1.5:
             return False  
     return True
 
-
+@njit # Using numba to speed up the create_matrix function
 def create_matrix(n):
     """
     Create a matrix of complex values ranging from -2 to 2 and -2i to 2i
     """
-    x = np.linspace(-2, 2, n)
-    y = np.linspace(-2, 2, n)
-    X, Y = np.meshgrid(x, y)
-    Z = X + 1j*Y
-    return Z
+    matrix = np.zeros((n,n), dtype=np.complex64)
+    for x in range(n):
+        for y in range(n):
+            matrix[x][y] = (complex(x/n*4-2, y/n*4-2))
+    return matrix
     
 @njit # Using numba to speed up the function
 def mandelbrot(matrix, iter, n):
@@ -52,15 +51,17 @@ def plot(matrix):
 
 
 def main():
-    n = 1000
+    n = 2000
     start = time()
     matrix = create_matrix(n)
     print(f"Matrix created in: {time() - start} seconds")
     start = time()
     matrix = mandelbrot(matrix, 100, n)
-    print(f"Iterating through the grid took: {time() - start} seconds")
-    print(f"number of operations required was {(n**2*100)/1e9} * 10 ^ 9")
+    print(f"Iteration process took: {time() - start} seconds")
     plot(matrix)
 
 if __name__ == "__main__":
     main()
+
+
+
