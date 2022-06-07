@@ -6,10 +6,8 @@ from time import time
 
 @njit
 def f(z):
-    """
-    f(z) = z^2 + 3z + 13
-    """
     return z**2 - 3*z + 13
+
 
 @njit
 def df(z):
