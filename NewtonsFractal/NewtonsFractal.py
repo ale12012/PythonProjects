@@ -18,7 +18,7 @@ def df(z):
 def find_zeros(z, n):
     for i in range(n):
         z -= f(z)/df(z)
-    if round(abs(f(z)), 5) == 0:
+    if round(abs(f(z)), 6) == 0:
         return z
     else:
         return np.nan
@@ -51,7 +51,7 @@ def create_matrix(n):
     return matrix
 
 def plot(matrix):
-    plt.imshow(matrix, cmap='plasma', interpolation='nearest')
+    plt.imshow(matrix, cmap='viridis', interpolation='nearest')
     plt.show()
 
 def main(n):
@@ -66,17 +66,17 @@ def main(n):
     matrix = newtons_method(matrix, 100)
 
     #round the values to 4 decimals such that we can compare them
-    matrix = np.around(matrix, decimals=4)
-    zeros = np.around(np.unique(zeros), decimals=4)
+    matrix = np.around(matrix, decimals=6)
+    zeros = np.around(np.unique(zeros), decimals=6)
 
     #trace the starting location of the zeros to create colormap of where the zeros originate from.
     matrix = start_location(matrix, zeros)
     end = time()
-    
+
     print(f"{end - start} seconds to compute newtons fractal")
     plot(matrix)
 
 
 
 if __name__ == "__main__":
-    main(2000)
+    main(10000)
